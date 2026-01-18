@@ -1,11 +1,15 @@
 import "reflect-metadata";
+import "./env.js";
 
 import type { Express, Request, Response } from "express";
 import express from "express";
+import mongoose from "mongoose";
 import { addRoutes } from "./src/config/routes.config.js";
-const app: Express = express();
 
-const port = 3001;
+const app: Express = express();
+const port = process.env.PORT;
+
+app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express application");
@@ -14,6 +18,25 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 addRoutes(app);
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+async function bootstrap() {
+  if (!process.env.DATABASE_URL || !process.env.DATABASE_NAME) {
+    throw new Error("Cannot read environment variables.");
+  }
+  try {
+    await mongoose.connect(process.env.DATABASE_URL, {
+      dbName: process.env.DATABASE_NAME,
+    });
+
+    console.log("Connected to MongoDB");
+    app.listen(port, () => {
+      console.log(`Server is running at http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error("BOOTSTRAP ERROR:");
+    console.error(error instanceof Error ? error.message : error);
+    console.error(error instanceof Error ? error.stack : "");
+    process.exit(1);
+  }
+}
+
+bootstrap();

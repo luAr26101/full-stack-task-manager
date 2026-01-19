@@ -1,29 +1,23 @@
+import type { Request, Response } from "express";
 import { inject, injectable } from "inversify";
+import { Document } from "mongoose";
 import { UserController } from "../user/user.controller.js";
+import type { ITask } from "./task.interface.js";
+import { Task } from "./task.schema.js";
 
 @injectable()
 export class TasksController {
   constructor(@inject(UserController) private userController: UserController) {}
 
-  public handleGetTasks() {
-    return [
-      {
-        title: "This is a title",
-        description: "Task description",
-      },
-      {
-        title: "This is a title 2",
-        description: "Task description 2",
-      },
-    ];
+  public async handleGetTasks(req: Request, res: Response) {
+    const tasks = await Task.find();
+    return tasks;
   }
 
-  public handlePostTasks() {
-    console.log(this.userController.getUser());
-    return {
-      title: "This is a title",
-      description: "Task description",
-    };
+  public async handlePostTasks(req: Request<{}, {}, ITask>, res: Response) {
+    const task: Document<unknown, any, ITask> = new Task(req.body);
+    await task.save();
+    return task;
   }
 
   public handlePatchTasks() {

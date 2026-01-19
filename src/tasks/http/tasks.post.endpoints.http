@@ -1,4 +1,11 @@
 POST http://localhost:3001/tasks/create
 Content-Type: application/json
 
-{}
+{
+  "title": "Walk the dog",
+  "description": "This is very important for me as it helps me go outside",
+  "status": "todo",
+  "priority": "normal",
+  "dueDate": "2026-01-01T12:00:00Z"
+  
+}

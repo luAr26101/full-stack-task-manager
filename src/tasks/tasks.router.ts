@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { Router } from "express";
 import { inject, injectable } from "inversify";
-import type { ITask } from "./task.interface.js";
+import type { IPartialTaskWithId, ITask } from "./task.interface.js";
 import { TasksController } from "./tasks.controller.js";
 
 @injectable()
@@ -27,9 +27,17 @@ export class TasksRouter {
         res.json(newTask);
       }
     );
-    this.router.patch("/update", (req: Request, res: Response) => {
-      const newTask = this.tasksController.handlePatchTasks();
-      res.json(newTask);
-    });
+    this.router.patch(
+      "/update",
+      async (req: Request<{}, {}, IPartialTaskWithId>, res: Response) => {
+        const updatedTask = await this.tasksController.handlePatchTasks(
+          req,
+          res
+        );
+        res.json(updatedTask);
+      }
+    );
   }
 }
+
+// Build cool stuff with react: https://www.youtube.com/watch?v=S2It1iMIT0U

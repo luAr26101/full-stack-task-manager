@@ -1,8 +1,10 @@
 import type { Request, Response } from "express";
 import { Router } from "express";
+import { validationResult } from "express-validator";
 import { inject, injectable } from "inversify";
 import type { IPartialTaskWithId, ITask } from "./task.interface.js";
 import { TasksController } from "./tasks.controller.js";
+import { createTaskValidator } from "./validators/createTask.validator.js";
 
 @injectable()
 export class TasksRouter {
@@ -22,9 +24,15 @@ export class TasksRouter {
     });
     this.router.post(
       "/create",
+      createTaskValidator,
       async (req: Request<{}, {}, ITask>, res: Response) => {
-        const newTask = await this.tasksController.handlePostTasks(req, res);
-        res.json(newTask);
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+          const newTask = await this.tasksController.handlePostTasks(req, res);
+          res.json(newTask);
+        } else {
+          res.json(result.array());
+        }
       }
     );
     this.router.patch(

@@ -2,8 +2,8 @@ POST http://localhost:3001/tasks/create
 Content-Type: application/json
 
 {
-  "title": "Eat breakfast",
-  "description": "Most important meal of the day",
+  "title": "Do laundry",
+  "description": "Must have clean clothes",
   "status": "todo",
   "priority": "normal",
   "dueDate": "2026-01-01T12:00:00Z"

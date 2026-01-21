@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { Router } from "express";
 import { validationResult } from "express-validator";
+import { StatusCodes } from "http-status-codes";
 import { inject, injectable } from "inversify";
 import type { IPartialTaskWithId, ITask } from "./task.interface.js";
 import { TasksController } from "./tasks.controller.js";
@@ -37,9 +38,9 @@ export class TasksRouter {
         const result = validationResult(req);
         if (result.isEmpty()) {
           const newTask = await this.tasksController.handlePostTasks(req, res);
-          res.json(newTask);
+          res.status(StatusCodes.CREATED).json(newTask);
         } else {
-          res.json(result.array());
+          res.status(StatusCodes.BAD_REQUEST).json(result.array());
         }
       }
     );

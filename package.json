@@ -12,6 +12,8 @@
     "start:dev": "nodemon --exec node --loader ts-node/esm index.ts"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.0.1",
     "express-validator": "^7.2.1",

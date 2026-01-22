@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import "./env.js";
 
+import type { CorsOptions } from "cors";
+import cors from "cors";
 import type { Express, Request, Response } from "express";
 import express from "express";
 import mongoose from "mongoose";
@@ -10,6 +12,11 @@ import { responseFormatter } from "./src/middleware/responseFormatter.middleware
 const app: Express = express();
 const port = process.env.PORT;
 
+let corsOptions: CorsOptions = {
+  origin: "http://example.com",
+};
+
+app.use(cors()); // don't leave it like this in production
 app.use(express.json());
 app.use(responseFormatter);
 

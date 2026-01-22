@@ -5,11 +5,13 @@ import type { Express, Request, Response } from "express";
 import express from "express";
 import mongoose from "mongoose";
 import { addRoutes } from "./src/config/routes.config.js";
+import { responseFormatter } from "./src/middleware/responseFormatter.middleware.js";
 
 const app: Express = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(responseFormatter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express application");

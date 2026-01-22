@@ -30,7 +30,7 @@ export class TasksRouter {
           const allTasks = await this.tasksController.handleGetTasks(req, res);
           res.status(StatusCodes.OK).json(allTasks);
         } else {
-          res.status(StatusCodes.BAD_REQUEST).json(result.array);
+          res.status(StatusCodes.BAD_REQUEST).json(result.array());
         }
       }
     );

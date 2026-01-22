@@ -2,9 +2,9 @@ POST http://localhost:3001/tasks/create
 Content-Type: application/json
 
 {
-  "title": "Learn Node.js",
+  "title": "Learn MongoDB",
   "description": "I'm doomed...",
-  "status": "inProgress",
+  "status": "completed",
   "priority": "normal",
   "dueDate": "2026-01-01T12:00:00Z"
   

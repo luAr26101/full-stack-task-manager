@@ -2,9 +2,9 @@ POST http://localhost:3001/tasks/create
 Content-Type: application/json
 
 {
-  "title": "Do clan war attacks",
-  "description": "Clash of clans is the best game in the world.",
-  "status": "todo",
+  "title": "Learn Node.js",
+  "description": "I'm doomed...",
+  "status": "inProgress",
   "priority": "normal",
   "dueDate": "2026-01-01T12:00:00Z"
   
